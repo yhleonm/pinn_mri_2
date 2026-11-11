@@ -1,0 +1,63 @@
+# Multi-Physics Coupled Electro-Thermal PINN Configuration (pinn_mri_2)
+project:
+  name: "ElectroThermal-MRI-PINN-v2"
+  description: "Viscosity-Free Convection-Reaction EPT + Pennes Bioheat Dosimetry + Self-Adaptive GradNorm PINN"
+  seed: 42
+
+data:
+  dataset_type: "cortical_brain_tumor"   # cortical_brain_tumor | shepp_logan | clinical_in_vivo | uc_berkeley_real
+  h5_path: "data/cortical_brain_tumor_8coils_3T.h5"
+  height: 128
+  width: 128
+  num_coils: 8
+  mask_type: "cartesian"                 # cartesian | radial | poisson
+  acceleration: 4                        # R = 4x or 8x
+  acs_lines: 18
+  noise_snr_db: 36.0
+
+physics:
+  b0_tesla: 3.0                          # 1.5 | 3.0 | 7.0 T
+  fov_x_m: 0.24
+  fov_y_m: 0.24
+  epsilon_b1: 1.0e-3
+  epsilon_sigma: 1.0e-3
+  use_convection_reaction: true          # true = cr-PINN (Paper 2), false = Helmholtz-PINN (Paper 1)
+  # Pennes Bioheat Parameters
+  t_arterial_c: 37.0                     # Basal arterial temperature [°C]
+  k_thermal_w_mk: 0.52                   # Brain thermal conductivity [W/(m*K)]
+  c_tissue_j_kgk: 3630.0                 # Brain specific heat capacity [J/(kg*K)]
+  c_blood_j_kgk: 3617.0                  # Blood specific heat capacity [J/(kg*K)]
+  rho_tissue_kg_m3: 1040.0               # Brain tissue mass density [kg/m^3]
+  wb_healthy_kg_m3s: 9.0                 # Normal cerebral blood perfusion [kg/(m^3*s)]
+  tumor_perfusion_ratio: 0.25            # Intratumoral necrotic/hypoxic hypoperfusion (0.25 * wb_healthy)
+  exposure_duration_min: 30.0            # RF exposure duration [min]
+
+model:
+  omega_anatomy: 30.0
+  omega_coil: 5.0
+  omega_ept: 18.0
+  hidden_features_anatomy: 128
+  hidden_layers_anatomy: 4
+  hidden_features_coil: 64
+  hidden_layers_coil: 3
+  hidden_features_ept: 96
+  hidden_layers_ept: 3
+  sigma_bounds: [0.01, 3.0]
+  eps_r_bounds: [1.0, 100.0]
+
+training:
+  epochs: 50
+  warmup_epochs: 12
+  lr_anatomy: 7.5e-4
+  lr_coil: 1.2e-3
+  lr_ept: 2.8e-3
+  lambda_kspace: 1.0
+  lambda_ept_sigma: 0.06
+  lambda_ept_eps: 0.015
+  lambda_coil_smooth: 0.02
+  lambda_harmonic_b0: 0.012
+  use_gradnorm: true                     # Wang, Teng & Perdikaris (2021) self-adaptive loss balancing
+  gradnorm_update_every: 5
+  gradnorm_ema_alpha: 0.85
+  enable_s1_unwrapping: true
+  telemetry_interval: 5

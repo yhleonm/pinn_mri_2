@@ -1,0 +1,38 @@
+# Python & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+
+# Node / Frontend build artifacts
+frontend/node_modules/
+frontend/dist/
+.npm/
+
+# PyTorch checkpoints & temporary caches
+*.pt
+*.pth
+*.ckpt
+.pytest_cache/
+.mypy_cache/
+
+# LaTeX auxiliary files
+paper2_manuscript/*.aux
+paper2_manuscript/*.log
+paper2_manuscript/*.out
+paper2_manuscript/*.bbl
+paper2_manuscript/*.blg
+paper2_manuscript/*.synctex.gz
+paper2_manuscript/*.toc
+paper2_manuscript/*.fls
+paper2_manuscript/*.fdb_latexmk
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
