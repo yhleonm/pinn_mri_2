@@ -1,0 +1,176 @@
+% POR FAVOR NO MODIFIQUE LA HOJA DE ESTILOS, LAS PROPIEDADES, ESTILO DE LETRAS, REFERENCIAS Y DEMÁS, HACEN PARTE DEL FORMATO PROPIO DE LA REVISTA
+
+
+\usepackage[utf8]{inputenc}
+\usepackage{pxfonts}
+\usepackage{abstract}
+\usepackage{parskip}
+\usepackage{wasysym} % symbols
+\usepackage{amssymb} % symbols
+ \usepackage{colortbl}
+\usepackage{float}
+\usepackage[hidelinks]{hyperref}
+\usepackage{orcidlink}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+\usepackage{titling}
+\usepackage{caption}
+\usepackage{titlesec}
+
+
+%%%%%% FORMATO DE TÍTULOS Y SUBTÍTULOS %%%%%%%%
+\titleformat*{\section}{\fontsize{13}{1}\bfseries\color{bluesrev}}
+
+\titleformat*{\subsection}{\fontsize{13}{1}\bfseries\itshape}
+
+
+\titlespacing*{\section}
+{0pt}{1cm}{0.2cm}
+
+\titlespacing*{\subsection}
+{0pt}{1cm}{0.2cm}
+%%%%%% FORMATO DE TÍTULOS Y SUBTÍTULOS %%%%%%%%
+
+%%%%%%%%% PAQUETE BIBLATEX PARA REFERENCIAS EN APA7 %%%%%%%
+\usepackage[
+backend=biber,
+style=apa,
+natbib=true,
+date=year,
+uniquelist=false,
+defernumbers=true,
+minbibnames=4,
+maxalphanames=19,
+maxbibnames=99,
+eprint=false,
+maxcitenames=3,
+uniquelist=false,
+  uniquename=false
+]{biblatex}
+%%%%%%%%% PAQUETE BIBLATEX PARA REFERENCIAS EN APA7 %%%%%%%
+
+
+%%%%%%%%%%%%% Et.al EN CURSIVA Y NEGRILLA %%%%%%%%%%%%%
+
+\DefineBibliographyStrings{english}{andothers={\textit{\textbf{et}}\addabbrvspace \textit{\textbf{al}}\adddot}} 
+%%%%%%%%%%%%% Et.al EN CURSIVA Y NEGRILLA %%%%%%%%%%%%%
+
+
+\usepackage[document]{ragged2e}
+\usepackage[affil-sl]{authblk} 
+\usepackage{mathptmx}  %Times new Roman 
+
+
+%%%%%%%%%%%%% AUTORES EN NEGRILLA %%%%%%%%%%%%%
+\DeclareFieldFormat{bbx@introcite}{\mkbibbold{#1}}
+\DeclareNameAlias{sortname}{family-given}
+\renewcommand*{\mkbibnamefamily}{\textbf}
+%%%%%%%%%%%%% AUTORES EN NEGRILLA %%%%%%%%%%%%%
+
+
+%%%%%%%%% AUTORES EN NEGRILLA EN LAS REFERENCIAS%%%%%%%%%%%%
+\DeclareNameFormat{apaauthor}{\mkbibbold{%
+  \ifthenelse{\value{listcount}=\maxprtauth\AND\value{listcount}<\value{listtotal}}
+    {\addcomma\addspace\ldots\addspace}
+    {\ifthenelse{\value{listcount}>\maxprtauth\AND\value{listcount}<\value{listtotal}}
+      {}
+      {\iffieldannotation{uncertain}
+        {\mkbibbrackets{\usebibmacro{name:apa:family-given}%
+                         {\namepartfamily}%
+                         {\namepartgiven}%
+                         {\namepartgiveni}%
+                         {\namepartprefix}%
+                         {\namepartsuffix}?}}
+        {\usebibmacro{name:apa:family-given}%
+          {\namepartfamily}%
+          {\namepartgiven}%
+          {\namepartgiveni}%
+          {\namepartprefix}%
+          {\namepartsuffix}}}}%
+    \ifthenelse{\value{listcount}=\value{listtotal}}%
+      {\ifmorenames{\printdelim{andothersdelim}\bibstring{andothers}}{}}{}}}
+%%%%%%%%% AUTORES EN NEGRILLA EN LAS REFERENCIAS%%%%%%%%%%%%
+
+
+\makeatletter
+
+%%%%%%%%% PROPIEDADES DE LOS AUTORES DEL ARTÍCULO%%%%%%%%%%
+\renewcommand{\maketitle}{\bgroup\setlength{\parindent}{14pt}
+\begin{flushleft}
+  \textbf{\@title}
+  \@author 
+\end{flushleft}\egroup}
+
+\makeatother
+
+\pagestyle{fancy}
+\fancyfoot[C]{}
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead
+{
+  \fancyhead[R]{}
+}
+
+\renewcommand\Affilfont{\fontsize{8}{8}}
+
+\definecolor{bluesrev}{HTML}{136f8b}
+
+\renewcommand{\absnamepos}{flushleft}
+\renewcommand{\abstractnamefont}{\fontsize{13}{13}\bfseries\color{bluesrev}}
+\renewcommand{\abstracttextfont}{\fontsize{9}{1}\justifying}
+
+
+
+\captionsetup{justification   = raggedright,
+              singlelinecheck = false}
+
+\captionsetup{labelfont=bf}
+\captionsetup{labelsep=period}
+%%%%%%%%% PROPIEDADES DE LOS AUTORES DEL ARTÍCULO%%%%%%%%%%
+
+
+%%%%%%%% PROPIEDADES DE LAS TABLAS Y LAS FIGURAS %%%%%%%%%
+\captionsetup[figure]
+{
+  labelfont=bf,
+  labelsep=period,
+  name=\sffamily{Figura},
+  justification=justified,
+  textfont = normalfont,
+  font = small
+}
+
+
+\captionsetup[table]
+{
+  labelfont=bf,
+  labelsep=period,
+  name=\sffamily{Tabla},
+  justification=justified,
+  textfont = normalfont,
+  font = small
+}
+%%%%%%%% PROPIEDADES DE LAS TABLAS Y LAS FIGURAS %%%%%%%%%
+
+
+%%%%%%%%%%%%%% SIN AND AL FINAL DE LAS BIBLIOGRAFIAS%%%%%%%
+\renewcommand{\labelnamepunct}{\addspace}
+
+\DeclareDelimFormat[bib]{finalnamedelim}{%
+  \ifthenelse{\value{listcount}>\maxprtauth}
+    {}
+    {\ifthenelse{\value{liststop}>2}
+       {\finalandcomma\addspace\bibstring{}\space}
+       {\addspace\bibstring{}\space}}}
+
+\DeclareDelimFormat[bib]{finalnamedelim:apa:family-given}{%
+  \ifthenelse{\value{listcount}>\maxprtauth}
+    {}
+    {\ifthenelse{\ifcurrentname{groupauthor}\AND%
+                 \value{liststop}=2}
+     {\addspace\bibstring{}\space}
+     {\finalandcomma\addspace\bibstring{}\space}}}
+%%%%%%%%%%%%%% SIN AND AL FINAL DE LAS BIBLIOGRAFIAS%%%%%%%
+

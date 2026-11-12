@@ -369,9 +369,26 @@ async def generate_or_update_phantom(req: PhantomConfigRequest) -> DatasetStateR
 
 
 @router.post("/load-sample-h5", response_model=DatasetStateResponse)
-async def load_sample_h5(req: PhantomConfigRequest) -> DatasetStateResponse:
-    """Loads the anthropomorphic cortical glioma .h5 dataset (`cortical_brain_tumor_8coils_3T.h5`)."""
-    sample_path = Path("data/cortical_brain_tumor_8coils_3T.h5")
+async def load_sample_h5(
+    req: PhantomConfigRequest,
+    sample_name: Optional[str] = None,
+) -> DatasetStateResponse:
+    """Loads anthropomorphic or real patient in-vivo multi-coil .h5 datasets (Brain, Knee, Torso, Cardiac)."""
+    name_str = str(sample_name or "").lower().strip()
+    if name_str in ("knee", "rodilla"):
+        sample_path = Path("data/real_in_vivo_knee_8coils_3T.h5")
+    elif name_str in ("torso", "abdomen"):
+        sample_path = Path("data/real_in_vivo_torso_8coils_3T.h5")
+    elif name_str in ("cardiac", "cardiaco", "corazon"):
+        sample_path = Path("data/real_in_vivo_cardiac_6coils_3T.h5")
+    elif name_str in ("brain_clinical", "clinical"):
+        sample_path = Path("data/clinical_in_vivo_brain_8coils.h5")
+    else:
+        sample_path = Path("data/cortical_brain_tumor_8coils_3T.h5")
+
+    if not sample_path.exists():
+        sample_path = Path("data/raw") / sample_path.name
+
     if not sample_path.exists():
         gpu_session.initialize_default()
         return gpu_session.build_state_response()

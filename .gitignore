@@ -26,10 +26,15 @@ paper2_manuscript/*.log
 paper2_manuscript/*.out
 paper2_manuscript/*.bbl
 paper2_manuscript/*.blg
+paper2_manuscript/*.bcf
+paper2_manuscript/*.run.xml
 paper2_manuscript/*.synctex.gz
 paper2_manuscript/*.toc
 paper2_manuscript/*.fls
 paper2_manuscript/*.fdb_latexmk
+
+# External download cache (raw BART/ESPIRiT temporary dumps)
+data/external_cache/
 
 # OS & Editor files
 .DS_Store

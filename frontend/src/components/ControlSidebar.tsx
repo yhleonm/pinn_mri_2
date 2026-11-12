@@ -77,10 +77,34 @@ export const ControlSidebar: React.FC<ControlSidebarProps> = ({
           <button
             type="button"
             disabled={isTraining}
+            onClick={() => onLoadSampleH5("knee")}
+            className="text-[11px] bg-slate-800/90 hover:bg-slate-700 text-teal-200 border border-slate-700 rounded-lg px-2.5 py-1.5 text-left transition disabled:opacity-50"
+          >
+            🦵 Rodilla 8ch (.h5)
+          </button>
+          <button
+            type="button"
+            disabled={isTraining}
+            onClick={() => onLoadSampleH5("cardiac")}
+            className="text-[11px] bg-slate-800/90 hover:bg-slate-700 text-rose-200 border border-slate-700 rounded-lg px-2.5 py-1.5 text-left transition disabled:opacity-50"
+          >
+            🫀 Cardíaco 6ch (.h5)
+          </button>
+          <button
+            type="button"
+            disabled={isTraining}
+            onClick={() => onLoadSampleH5("torso")}
+            className="text-[11px] bg-slate-800/90 hover:bg-slate-700 text-indigo-200 border border-slate-700 rounded-lg px-2.5 py-1.5 text-left transition disabled:opacity-50"
+          >
+            🫁 Torso 8ch (.h5)
+          </button>
+          <button
+            type="button"
+            disabled={isTraining}
             onClick={onLoadUcBerkeley}
             className="text-[11px] bg-slate-800/90 hover:bg-slate-700 text-emerald-200 border border-slate-700 rounded-lg px-2.5 py-1.5 text-left transition disabled:opacity-50"
           >
-            🏥 UC Berkeley 8ch
+            🏥 UCB Cerebro 8ch
           </button>
           <button
             type="button"
@@ -94,9 +118,9 @@ export const ControlSidebar: React.FC<ControlSidebarProps> = ({
             type="button"
             disabled={isTraining}
             onClick={() => fileInputRef.current?.click()}
-            className="text-[11px] bg-slate-800/90 hover:bg-slate-700 text-amber-200 border border-slate-700 rounded-lg px-2.5 py-1.5 flex items-center gap-1 transition disabled:opacity-50"
+            className="col-span-2 text-[11px] bg-slate-800/90 hover:bg-slate-700 text-amber-200 border border-slate-700 rounded-lg px-2.5 py-1.5 flex items-center justify-center gap-1 transition disabled:opacity-50"
           >
-            <Upload className="w-3 h-3" /> Subir .h5
+            <Upload className="w-3 h-3" /> Subir archivo .h5 externo
           </button>
           <input
             ref={fileInputRef}

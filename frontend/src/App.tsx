@@ -192,7 +192,9 @@ export function App() {
 
   const handleLoadSampleH5 = async (sampleName: string) => {
     const endpoint =
-      sampleName === "shepp_logan" ? "/api/phantom" : "/api/load-sample-h5";
+      sampleName === "shepp_logan"
+        ? "/api/phantom"
+        : `/api/load-sample-h5?sample_name=${encodeURIComponent(sampleName)}`;
     const res = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

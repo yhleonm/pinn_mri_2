@@ -1,0 +1,96 @@
+% ===========================================================================
+% Carta_Presentacion_RACCEFYN.tex
+% Carta de Sometimiento al Editor en Jefe — RACCEFYN (Sección: Ciencias Físicas)
+% Manuscrito: ElectroThermalMRIPINN (Paper 2)
+% ===========================================================================
+\documentclass[11pt,a4paper]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{mathptmx}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{parskip}
+
+\begin{document}
+
+\begin{flushright}
+Bogotá, D.C., Colombia, 11 de noviembre de 2026
+\end{flushright}
+
+\vspace{0.3cm}
+
+\noindent\textbf{Doctor}\\
+\textbf{Editor en Jefe y Comité Editorial — Sección de Ciencias Físicas}\\
+\textit{Revista de la Academia Colombiana de Ciencias Exactas, Físicas y Naturales (RACCEFYN)}\\
+Academia Colombiana de Ciencias Exactas, Físicas y Naturales\\
+Bogotá, D.C., Colombia
+
+\vspace{0.4cm}
+
+\noindent\textbf{Asunto:} Sometimiento de artículo de investigación original a la sección de \textbf{Ciencias Físicas}\\
+\textbf{Título del manuscrito:} \textit{«Tomografía de propiedades eléctricas por convección-reacción diferenciable y modelado de biocalor de Pennes mediante redes informadas por la física»}\\
+\textbf{Título en inglés:} \textit{«Differentiable convection-reaction electrical properties tomography and Pennes bioheat modeling via physics-informed networks»}
+
+\vspace{0.3cm}
+
+\noindent Respetado Señor Editor y miembros del Comité Editorial de Ciencias Físicas:
+
+Por medio de la presente me dirijo a ustedes para someter a su consideración el manuscrito original titulado \textit{«Tomografía de propiedades eléctricas por convección-reacción diferenciable y modelado de biocalor de Pennes mediante redes informadas por la física»}, de autoría de Yerson Hernando León-Montañez (Facultad de Ingeniería, Maestría en Inteligencia Artificial, Universidad de La Salle, Bogotá, Colombia), con la solicitud formal de que sea evaluado dentro de la sección de \textbf{Ciencias Físicas} de la \textit{Revista de la Academia Colombiana de Ciencias Exactas, Físicas y Naturales}.
+
+El objeto científico de esta investigación profundiza y da continuidad directa a las limitaciones físicas reportadas en la tomografía de propiedades eléctricas por resonancia magnética (MR-EPT) basada en la ecuación de Helmholtz con suposición de admisividad localmente homogénea ($\nabla\sigma \approx \mathbf{0}$, $\nabla\varepsilon_r \approx \mathbf{0}$). Dicha aproximación generaba un aplanamiento de bordes tisulares con subestimación de hasta el $-21.4\%$ en tejido tumoral de glioma y un colapso del $-46.0\%$ en la conductividad del líquido cefalorraquídeo ventricular. Asimismo, el uso tradicional de un índice estático de tasa de absorción específica ($\text{SAR}$ en $\text{W/kg}$) carecía de validez biofísica para predecir daño térmico al ignorar los mecanismos termorreguladores de perfusión sanguínea y difusión térmica.
+
+Para superar de forma integral estas barreras, el presente artículo formula \textbf{ElectroThermalMRIPINN}, un marco acoplado multi-física continuo gobernado por ecuaciones en derivadas parciales (EDPs) que introduce tres contribuciones originales:
+\begin{enumerate}
+    \item \textbf{Ecuación diferencial parcial completa de Convección-Reacción diferenciable libre de viscosidad artificial:} Resolviendo directamente a partir de las ecuaciones vectoriales de Maxwell armónicas el desacoplamiento exacto para la fase transceptora $\nabla_m^2\phi^+ + \frac{2\nabla_m|B_1^+|\cdot\nabla_m\phi^+}{|B_1^+|+\epsilon_{B_1}} - \frac{\nabla_m\sigma\cdot\nabla_m\phi^+}{\sigma+\epsilon_\sigma} = \mu_0\omega\sigma$, donde el producto interno de gradientes espaciales se evalúa de manera analítica exacta en grafos de diferenciación automática (\texttt{torch.autograd}) sobre representaciones implícitas sinusoidales $\mathcal{C}^\infty$ (SIREN), eliminando los términos estabilizadores de difusión artificial que distorsionan los métodos numéricos clásicos (cr-MREPT).
+    \item \textbf{Acoplamiento electro-térmico directo e inverso con la ecuación de Biocalor de Pennes y dosimetría $\text{CEM}_{43}$:} Integrando la potencia disipada localmente $\text{SAR}(\mathbf{x})$ como fuente volumétrica en la ecuación diferencial parabólica de transferencia de calor de Pennes para calcular mapas transitorios y estacionarios de temperatura absoluta $T(\mathbf{x}, t)$ [$^\circ\text{C}$] y dosis térmica acumulada de Sapareto-Dewey ($\text{CEM}_{43}$ en minutos). Esto permitió descubrir y caracterizar el fenómeno biofísico de la \textit{trampa térmica tumoral}: mientras que los tejidos ventriculares altamente conductores disipan eficazmente la energía térmica gracias a la vascularización periventricular, la hipoperfusión microvascular necrótica intratumoral ($\omega_{b,\text{tumor}} \approx 0.25\,\omega_{b,\text{sano}}$) atrapa la energía de radiofrecuencia provocando picos de hipertermia de hasta $39.59^\circ\text{C}$ ($\Delta T = +2.59^\circ\text{C}$, $\text{CEM}_{43} = 0.1672\text{ min}$), rebasando los umbrales de seguridad regulatoria internacional IEC 60601-2-33 (alerta de nivel controlado).
+    \item \textbf{Balanceo auto-adaptativo por norma de gradientes (GradNorm):} Un algoritmo dinámico guiado por la tasa de aprendizaje relativo de operadores espaciales que elimina la necesidad de ajuste manual heurístico de hiperparámetros.
+\end{enumerate}
+
+El marco fue validado exhaustivamente mediante experimentos numéricos multi-semilla ($N=5$) a intensidades de campo estático de $1.5\text{ T}$, $3.0\text{ T}$ y $7.0\text{ T}$ bajo aceleraciones agresivas en espacio-$k$ ($R=4\times$ y $R=8\times$), alcanzando una reducción del error $\text{NRMSE}(\sigma)$ de $35.22\%$ a $19.70\%$, recuperando fielmente la conductividad en gliomas ($1.210\text{ S/m}$, error $-0.82\%$) y cavidades ventriculares ($1.620\text{ S/m}$, error $-1.82\%$). Adicionalmente, el modelo demostró su versatilidad clínica al ser implementado en una estación PACS de segunda generación y evaluado sobre adquisiciones multi-bobina reales \textit{in vivo} de pacientes y voluntarios en múltiples órganos humanos (cerebro sano de 8 canales UC Berkeley/BART, rodilla musculoesquelética de 8 canales Stanford/ESPIRiT, tórax cardíaco dinámico de 6 canales BART y corte abdominal/torso de 8 canales ISMRM).
+
+Declaro de manera formal que este manuscrito es completamente original, no ha sido publicado previamente ni se encuentra postulado o sometido en ninguna otra revista. El documento se ajusta rigurosamente a las políticas editoriales y a la hoja de estilo oficial de RACCEFYN (\texttt{Styles\_ACCEFN.sty}): título en español (20 palabras, 163 caracteres) e inglés (13 palabras, 126 caracteres) inferiores a los límites exigidos, título corto para encabezado de 47 caracteres, resúmenes bilingües inferiores a 250 palabras cada uno estructurados con seis palabras clave separadas por punto y coma, exactamente 7 elementos gráficos principales (5 figuras a 300 DPI y 2 tablas comparativas, cumpliendo con el tope máximo de 7 elementos gráficos establecido por la revista), y 35 referencias bibliográficas verificadas con enlaces permanentes DOI y títulos completos de revistas bajo norma APA 7. No existe conflicto de intereses comercial, institucional ni financiero con respecto a los resultados presentados.
+
+\vspace{0.4cm}
+
+\noindent\textbf{Sugerencia de pares evaluadores (Revisores potenciales):}\\
+En concordancia con las pautas editoriales de RACCEFYN, me permito sugerir cuatro expertos internacionales idóneos en bioelectromagnetismo, resonancia magnética cuantitativa, tomografía de propiedades eléctricas (MR-EPT), biocalor y redes informadas por la física (PINNs), con quienes no existe conflicto de interés:
+\begin{enumerate}
+    \item \textbf{Dr. Ulrich Katscher, Ph.D.}\\
+    \textit{Filiación:} Philips Research Europe / Tomographic Imaging Systems, Hamburgo, Alemania.\\
+    \textit{Correo electrónico:} \href{mailto:ulrich.katscher@philips.com}{ulrich.katscher@philips.com}\\
+    \textit{Área de experticia:} Formulación física de la tomografía de propiedades eléctricas por resonancia magnética (MR-EPT), ecuaciones de Maxwell armónicas y dosimetría de radiofrecuencia (SAR).
+    
+    \item \textbf{Dr. Stefano Mandija, Ph.D.}\\
+    \textit{Filiación:} Computational Imaging Group for MR Diagnostics \& Therapy, University Medical Center Utrecht, Utrecht, Países Bajos.\\
+    \textit{Correo electrónico:} \href{mailto:s.mandija@umcutrecht.nl}{s.mandija@umcutrecht.nl}\\
+    \textit{Área de experticia:} Problemas inversos en MR-EPT, propagación de errores en bordes dieléctricos, campos magnéticos ultra-altos ($7.0\text{ T}$) y modelos neuronales en electromagnetismo biomédico.
+    
+    \item \textbf{Dr. Martin Uecker, Ph.D.}\\
+    \textit{Filiación:} Institute of Biomedical Imaging, Graz University of Technology (TU Graz), Graz, Austria.\\
+    \textit{Correo electrónico:} \href{mailto:uecker@tugraz.at}{uecker@tugraz.at}\\
+    \textit{Área de experticia:} Reconstrucción no lineal en espacio-$k$ multi-bobina, calibración de sensibilidades de bobina ESPIRiT/SENSE y software científico abierto para resonancia magnética (BART).
+    
+    \item \textbf{Dr. Francisco Sahli Costabal, Ph.D.}\\
+    \textit{Filiación:} Departamento de Ingeniería Mecánica y Metalúrgica / Instituto de Ingeniería Biológica y Médica, Pontificia Universidad Católica de Chile, Santiago, Chile.\\
+    \textit{Correo electrónico:} \href{mailto:fsahlic@uc.cl}{fsahlic@uc.cl}\\
+    \textit{Área de experticia:} Redes neuronales informadas por la física (PINNs), cálculo de gradientes por diferenciación automática y solución de ecuaciones diferenciales acopladas en bioingeniería y biofísica computacional.
+\end{enumerate}
+
+Agradezco de antemano el tiempo, la deferencia y la rigurosidad del Comité Editorial de Ciencias Físicas en la gestión del proceso de evaluación por pares.
+
+\vspace{0.5cm}
+
+\noindent Atentamente,
+
+\vspace{0.6cm}
+
+\noindent\textbf{Yerson Hernando León-Montañez}\\
+ORCID: \href{https://orcid.org/0009-0000-4439-8661}{0009-0000-4439-8661}\\
+Facultad de Ingeniería, Maestría en Inteligencia Artificial\\
+Universidad de La Salle, Bogotá, D.C., Colombia\\
+Correos electrónicos: \href{mailto:yeleon36@unisalle.edu.co}{yeleon36@unisalle.edu.co} $|$ \href{mailto:yelemo777@gmail.com}{yelemo777@gmail.com}\\
+Teléfono / Móvil: +57 3057278736
+
+\end{document}
